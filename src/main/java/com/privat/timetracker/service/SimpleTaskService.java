@@ -12,9 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +30,7 @@ public class SimpleTaskService implements TaskService {
         task.setStatus(TaskStatus.CREATED);
         task.setStartTime(LocalDateTime.MIN);
         task.setEndTime(LocalDateTime.MIN);
+        task.setCreatedAt(LocalDateTime.now());
         Task savedTask = taskRepository.save(task);
         return taskMapper.toDto(savedTask);
     }
@@ -42,6 +41,7 @@ public class SimpleTaskService implements TaskService {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException(ErrorMessages.TASK_NOT_FOUND.formatted(taskId)));
         Task updatedTaskFromDto = taskMapper.updateTaskFromRequest(taskRequest, task);
+        updatedTaskFromDto.setUpdatedAt(LocalDateTime.now());
         Task updatedTask = taskRepository.save(updatedTaskFromDto);
         return taskMapper.toDto(updatedTask);
     }

@@ -21,23 +21,54 @@ public class Task {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "task_status")
     private TaskStatus status;
-
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(id, task.id) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(startTime, task.startTime) && Objects.equals(endTime, task.endTime) && status == task.status;
+        return Objects.equals(id, task.id) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(startTime, task.startTime) && Objects.equals(endTime, task.endTime) && status == task.status && Objects.equals(createdAt, task.createdAt) && Objects.equals(updatedAt, task.updatedAt);
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "createdAt=" + createdAt +
+                ", id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", status=" + status +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, startTime, endTime, status);
+        return Objects.hash(id, title, description, startTime, endTime, status, createdAt, updatedAt);
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setDescription(String description) {

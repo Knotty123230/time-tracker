@@ -5,6 +5,8 @@ import com.privat.timetracker.controller.dto.TaskResponse;
 import com.privat.timetracker.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,5 +35,10 @@ public class TaskController {
     @GetMapping("/{id}")
     public TaskResponse getTask(@PathVariable Long id) {
         return taskService.getTask(id);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTask(@PathVariable Long id){
+        taskService.deleteTask(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

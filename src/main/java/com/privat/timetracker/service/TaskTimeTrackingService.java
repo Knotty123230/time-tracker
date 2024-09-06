@@ -8,6 +8,7 @@ import com.privat.timetracker.exception.exceptions.TaskNotFoundException;
 import com.privat.timetracker.exception.exceptions.TaskTimeException;
 import com.privat.timetracker.mapping.TaskMapper;
 import com.privat.timetracker.repository.TaskRepository;
+import jdk.jshell.Snippet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +26,10 @@ public class TaskTimeTrackingService implements TimeTracking {
 
     @Override
     public TaskResponse startTask(Long taskId) {
+        Task task = getTask(taskId);
+        if (task.getStatus().equals(TaskStatus.ACTIVE))
+            throw new TaskTimeException(ErrorMessages.TASK_TIME_EXCEPTION.formatted("start", taskId, "Task already started"));
         try {
-            Task task = getTask(taskId);
             task.setStatus(TaskStatus.ACTIVE);
             task.setStartTime(LocalDateTime.now());
             task.setEndTime(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)));
@@ -44,15 +47,18 @@ public class TaskTimeTrackingService implements TimeTracking {
 
     @Override
     public TaskResponse stopTask(Long taskId) {
+        Task task = getTask(taskId);
+        if (task.getStatus().equals(TaskStatus.INACTIVE))
+            throw new TaskTimeException(ErrorMessages.TASK_TIME_EXCEPTION.formatted("stop", taskId, "Task already stopped"));
         try {
-            Task task = getTask(taskId);
             task.setStatus(TaskStatus.INACTIVE);
             task.setEndTime(LocalDateTime.now());
             Task save = taskRepository.save(task);
             return taskMapper.toDto(save);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new TaskTimeException(ErrorMessages.TASK_TIME_EXCEPTION.formatted("stop", taskId, ex.getMessage()));
         }
+
 
     }
 }
