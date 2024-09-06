@@ -1,6 +1,9 @@
 package com.privat.timetracker.service;
 
+import com.privat.timetracker.controller.dto.TaskResponse;
+
 public interface TimeTracking {
-    boolean startTask(Long taskId);
-    boolean stopTask(Long taskId);
+    TaskResponse startTask(Long taskId);
+
+    TaskResponse stopTask(Long taskId);
 }

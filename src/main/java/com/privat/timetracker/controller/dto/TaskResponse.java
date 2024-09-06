@@ -1,6 +1,5 @@
 package com.privat.timetracker.controller.dto;
 
-import com.privat.timetracker.entity.Task;
 import com.privat.timetracker.entity.TaskStatus;
 
 import java.time.LocalDateTime;

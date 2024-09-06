@@ -3,6 +3,7 @@ package com.privat.timetracker.controller;
 import com.privat.timetracker.controller.dto.TaskRequest;
 import com.privat.timetracker.controller.dto.TaskResponse;
 import com.privat.timetracker.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +16,12 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping
-    public TaskResponse createTask(@RequestBody TaskRequest taskRequest) {
+    public TaskResponse createTask(@RequestBody @Valid TaskRequest taskRequest) {
         return taskService.createTask(taskRequest);
     }
 
     @PutMapping("/{id}")
-    public TaskResponse editTask(@PathVariable Long id, @RequestBody TaskRequest taskRequest) {
+    public TaskResponse editTask(@PathVariable Long id, @RequestBody @Valid TaskRequest taskRequest) {
         return taskService.updateTask(id, taskRequest);
     }
 

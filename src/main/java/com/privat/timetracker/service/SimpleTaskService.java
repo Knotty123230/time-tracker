@@ -3,14 +3,18 @@ package com.privat.timetracker.service;
 import com.privat.timetracker.controller.dto.TaskRequest;
 import com.privat.timetracker.controller.dto.TaskResponse;
 import com.privat.timetracker.entity.Task;
-import com.privat.timetracker.exception.ErrorMessages;
-import com.privat.timetracker.exception.TaskNotFoundException;
-import com.privat.timetracker.mappings.TaskMapper;
+import com.privat.timetracker.entity.TaskStatus;
+import com.privat.timetracker.exception.constants.ErrorMessages;
+import com.privat.timetracker.exception.exceptions.TaskNotFoundException;
+import com.privat.timetracker.mapping.TaskMapper;
 import com.privat.timetracker.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +29,9 @@ public class SimpleTaskService implements TaskService {
     @Transactional
     public TaskResponse createTask(TaskRequest taskRequest) {
         Task task = taskMapper.toEntity(taskRequest);
+        task.setStatus(TaskStatus.CREATED);
+        task.setStartTime(LocalDateTime.MIN);
+        task.setEndTime(LocalDateTime.MIN);
         Task savedTask = taskRepository.save(task);
         return taskMapper.toDto(savedTask);
     }
@@ -34,8 +41,8 @@ public class SimpleTaskService implements TaskService {
     public TaskResponse updateTask(Long taskId, TaskRequest taskRequest) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException(ErrorMessages.TASK_NOT_FOUND.formatted(taskId)));
-        taskMapper.updateTaskFromRequest(taskRequest, task);
-        Task updatedTask = taskRepository.save(task);
+        Task updatedTaskFromDto = taskMapper.updateTaskFromRequest(taskRequest, task);
+        Task updatedTask = taskRepository.save(updatedTaskFromDto);
         return taskMapper.toDto(updatedTask);
     }
 
