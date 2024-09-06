@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    container_name: time-tracker-app
+    environment:
+      SPRING_APPLICATION_NAME: time-tracker-spring
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/time_tracker_db
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_LOGGING_LEVEL_COM_PRIVAT_TIMETRACKER_AOP: INFO
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - time-tracker-network
+
+  db:
+    image: postgres:15-alpine
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: time_tracker_db
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "54321:5432"
+    networks:
+      - time-tracker-network
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+networks:
+  time-tracker-network:
+    driver: bridge
+
+volumes:
+  db-data:

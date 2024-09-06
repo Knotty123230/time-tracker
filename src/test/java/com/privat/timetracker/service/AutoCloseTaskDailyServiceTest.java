@@ -67,9 +67,7 @@ public class AutoCloseTaskDailyServiceTest {
     public void testAutoCloseTasksExceptionHandling() {
         when(taskRepository.findAllByStatus(TaskStatus.ACTIVE)).thenThrow(new DataAccessException("Database error") {});
 
-        TaskTimeException thrown = assertThrows(TaskTimeException.class, () -> {
-            autoCloseTaskDailyService.autoCloseTasks();
-        });
+        TaskTimeException thrown = assertThrows(TaskTimeException.class, () -> autoCloseTaskDailyService.autoCloseTasks());
 
         assertEquals(ErrorMessages.TASK_AUTO_CLOSE_EXCEPTION.formatted("Database error"), thrown.getMessage());
         verify(taskRepository, times(1)).findAllByStatus(TaskStatus.ACTIVE);

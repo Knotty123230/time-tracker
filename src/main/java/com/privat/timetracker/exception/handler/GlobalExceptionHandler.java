@@ -2,8 +2,7 @@ package com.privat.timetracker.exception.handler;
 
 import com.privat.timetracker.exception.constants.ErrorMessages;
 import com.privat.timetracker.exception.dto.ErrorResponse;
-import com.privat.timetracker.exception.exceptions.TaskNotFoundException;
-import com.privat.timetracker.exception.exceptions.TaskTimeException;
+import com.privat.timetracker.exception.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -34,7 +33,12 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(exceptionsMessages, HttpStatus.BAD_REQUEST.value(), getTimestamp());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-
+    @ExceptionHandler(value = {TaskAlreadyStarted.class, TaskAlreadyStopped.class, TaskNotStartedException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handleTaskBadRequest(RuntimeException ex){
+        ErrorResponse errorResponse = new ErrorResponse(List.of(ex.getMessage()), HttpStatus.BAD_REQUEST.value(), getTimestamp());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler(TaskTimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ErrorResponse> handleTaskTimeException(TaskTimeException ex){

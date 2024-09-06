@@ -6,8 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "task")
-
+@Table(name = "tasks", schema = "tasks_schema")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,9 +50,7 @@ public class Task {
         return Objects.hash(id, title, description, startTime, endTime, status, createdAt, updatedAt);
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
+
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
@@ -63,9 +60,6 @@ public class Task {
         return description;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;

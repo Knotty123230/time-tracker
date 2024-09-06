@@ -28,8 +28,6 @@ public class SimpleTaskService implements TaskService {
     public TaskResponse createTask(TaskRequest taskRequest) {
         Task task = taskMapper.toEntity(taskRequest);
         task.setStatus(TaskStatus.CREATED);
-        task.setStartTime(LocalDateTime.MIN);
-        task.setEndTime(LocalDateTime.MIN);
         task.setCreatedAt(LocalDateTime.now());
         Task savedTask = taskRepository.save(task);
         return taskMapper.toDto(savedTask);

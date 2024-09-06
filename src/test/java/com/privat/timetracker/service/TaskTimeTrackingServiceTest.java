@@ -4,6 +4,8 @@ import com.privat.timetracker.controller.dto.TaskResponse;
 import com.privat.timetracker.entity.Task;
 import com.privat.timetracker.entity.TaskStatus;
 import com.privat.timetracker.exception.constants.ErrorMessages;
+import com.privat.timetracker.exception.exceptions.TaskAlreadyStarted;
+import com.privat.timetracker.exception.exceptions.TaskAlreadyStopped;
 import com.privat.timetracker.exception.exceptions.TaskNotFoundException;
 import com.privat.timetracker.exception.exceptions.TaskTimeException;
 import com.privat.timetracker.mapping.TaskMapper;
@@ -76,9 +78,7 @@ public class TaskTimeTrackingServiceTest {
         when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        TaskNotFoundException thrown = assertThrows(TaskNotFoundException.class, () -> {
-            taskTimeTrackingService.startTask(taskId);
-        });
+        TaskNotFoundException thrown = assertThrows(TaskNotFoundException.class, () -> taskTimeTrackingService.startTask(taskId));
         assertEquals(ErrorMessages.TASK_NOT_FOUND.formatted(taskId), thrown.getMessage());
     }
 
@@ -91,7 +91,7 @@ public class TaskTimeTrackingServiceTest {
         when(taskRepository.findById(taskId)).thenReturn(Optional.of(task));
 
 
-        TaskTimeException taskTimeException = assertThrows(TaskTimeException.class, () -> taskTimeTrackingService.startTask(taskId));
+        TaskAlreadyStarted taskTimeException = assertThrows(TaskAlreadyStarted.class, () -> taskTimeTrackingService.startTask(taskId));
         assertTrue(taskTimeException.getMessage().contains("start"));
         assertTrue(taskTimeException.getMessage().contains(taskId.toString()));
     }
@@ -107,9 +107,7 @@ public class TaskTimeTrackingServiceTest {
         when(taskRepository.save(any(Task.class))).thenThrow(new RuntimeException("Database error"));
 
         // Act & Assert
-        TaskTimeException thrown = assertThrows(TaskTimeException.class, () -> {
-            taskTimeTrackingService.startTask(taskId);
-        });
+        TaskTimeException thrown = assertThrows(TaskTimeException.class, () -> taskTimeTrackingService.startTask(taskId));
         assertTrue(thrown.getMessage().contains("start"));
         assertTrue(thrown.getMessage().contains(taskId.toString()));
     }
@@ -143,9 +141,7 @@ public class TaskTimeTrackingServiceTest {
         when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        TaskNotFoundException thrown = assertThrows(TaskNotFoundException.class, () -> {
-            taskTimeTrackingService.stopTask(taskId);
-        });
+        TaskNotFoundException thrown = assertThrows(TaskNotFoundException.class, () -> taskTimeTrackingService.stopTask(taskId));
         assertEquals(ErrorMessages.TASK_NOT_FOUND.formatted(taskId), thrown.getMessage());
     }
 
@@ -158,7 +154,7 @@ public class TaskTimeTrackingServiceTest {
         when(taskRepository.findById(taskId)).thenReturn(Optional.of(task));
 
 
-        TaskTimeException taskTimeException = assertThrows(TaskTimeException.class, () -> taskTimeTrackingService.stopTask(taskId));
+        TaskAlreadyStopped taskTimeException = assertThrows(TaskAlreadyStopped.class, () -> taskTimeTrackingService.stopTask(taskId));
         assertTrue(taskTimeException.getMessage().contains("stop"));
         assertTrue(taskTimeException.getMessage().contains(taskId.toString()));
     }
@@ -173,9 +169,7 @@ public class TaskTimeTrackingServiceTest {
         when(taskRepository.save(any(Task.class))).thenThrow(new RuntimeException("Database error"));
 
         // Act & Assert
-        TaskTimeException thrown = assertThrows(TaskTimeException.class, () -> {
-            taskTimeTrackingService.stopTask(taskId);
-        });
+        TaskTimeException thrown = assertThrows(TaskTimeException.class, () -> taskTimeTrackingService.stopTask(taskId));
         assertTrue(thrown.getMessage().contains("stop"));
         assertTrue(thrown.getMessage().contains(taskId.toString()));
     }

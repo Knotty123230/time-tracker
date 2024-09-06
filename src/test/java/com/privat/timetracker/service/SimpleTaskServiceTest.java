@@ -100,9 +100,7 @@ public class SimpleTaskServiceTest {
 
         when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
 
-        TaskNotFoundException thrown = assertThrows(TaskNotFoundException.class, () -> {
-            simpleTaskService.updateTask(taskId, request);
-        });
+        TaskNotFoundException thrown = assertThrows(TaskNotFoundException.class, () -> simpleTaskService.updateTask(taskId, request));
 
         assertEquals(ErrorMessages.TASK_NOT_FOUND.formatted(taskId), thrown.getMessage());
         verify(taskRepository, times(1)).findById(taskId);
@@ -142,9 +140,7 @@ public class SimpleTaskServiceTest {
 
         when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
 
-        TaskNotFoundException thrown = assertThrows(TaskNotFoundException.class, () -> {
-            simpleTaskService.getTask(taskId);
-        });
+        TaskNotFoundException thrown = assertThrows(TaskNotFoundException.class, () -> simpleTaskService.getTask(taskId));
 
         assertEquals(ErrorMessages.TASK_NOT_FOUND.formatted(taskId), thrown.getMessage());
         verify(taskRepository, times(1)).findById(taskId);
@@ -196,9 +192,7 @@ public class SimpleTaskServiceTest {
 
         when(taskRepository.existsById(taskId)).thenReturn(false);
 
-        TaskNotFoundException thrown = assertThrows(TaskNotFoundException.class, () -> {
-            simpleTaskService.deleteTask(taskId);
-        });
+        TaskNotFoundException thrown = assertThrows(TaskNotFoundException.class, () -> simpleTaskService.deleteTask(taskId));
 
         assertEquals(ErrorMessages.TASK_NOT_FOUND.formatted(taskId), thrown.getMessage());
         verify(taskRepository, times(1)).existsById(taskId);

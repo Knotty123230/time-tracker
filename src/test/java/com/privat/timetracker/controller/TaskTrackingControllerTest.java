@@ -31,7 +31,7 @@ public class TaskTrackingControllerTest {
         TaskResponse taskResponse = new TaskResponse(1L, "Test Task", null, null, null, null);
         when(timeTracking.startTask(anyLong())).thenReturn(taskResponse);
 
-        mockMvc.perform(post("/tasks/1/start")
+        mockMvc.perform(post("/api/v1/tasks/1/start")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
@@ -44,7 +44,7 @@ public class TaskTrackingControllerTest {
 
         when(timeTracking.stopTask(anyLong())).thenReturn(taskResponse);
 
-        mockMvc.perform(post("/tasks/1/stop")
+        mockMvc.perform(post("/api/v1/tasks/1/stop")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
@@ -55,7 +55,7 @@ public class TaskTrackingControllerTest {
     public void testStartTask_NotFound() throws Exception {
         when(timeTracking.startTask(anyLong())).thenThrow(new TaskNotFoundException("Task not found"));
 
-        mockMvc.perform(post("/tasks/999/start")
+        mockMvc.perform(post("/api/v1/tasks/999/start")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Task not found"));
@@ -65,7 +65,7 @@ public class TaskTrackingControllerTest {
     public void testStopTask_NotFound() throws Exception {
         when(timeTracking.stopTask(anyLong())).thenThrow(new TaskNotFoundException("Task not found"));
 
-        mockMvc.perform(post("/tasks/999/stop")
+        mockMvc.perform(post("/api/v1/tasks/999/stop")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Task not found"));

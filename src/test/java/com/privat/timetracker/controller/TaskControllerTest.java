@@ -37,7 +37,7 @@ public class TaskControllerTest {
 
         when(taskService.createTask(any(TaskRequest.class))).thenReturn(taskResponse);
 
-        mockMvc.perform(post("/tasks")
+        mockMvc.perform(post("/api/v1/tasks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(taskRequest)))
                 .andExpect(status().isOk())
@@ -53,7 +53,7 @@ public class TaskControllerTest {
 
         when(taskService.updateTask(anyLong(), any(TaskRequest.class))).thenReturn(taskResponse);
 
-        mockMvc.perform(put("/tasks/1")
+        mockMvc.perform(put("/api/v1/tasks/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(taskRequest)))
                 .andExpect(status().isOk())
@@ -69,7 +69,7 @@ public class TaskControllerTest {
 
         when(taskService.getAllTasks()).thenReturn(taskResponses);
 
-        mockMvc.perform(get("/tasks")
+        mockMvc.perform(get("/api/v1/tasks")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1))
@@ -83,7 +83,7 @@ public class TaskControllerTest {
 
         when(taskService.getTask(anyLong())).thenReturn(taskResponse);
 
-        mockMvc.perform(get("/tasks/1")
+        mockMvc.perform(get("/api/v1/tasks/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
@@ -96,7 +96,7 @@ public class TaskControllerTest {
         TaskRequest invalidTaskRequest = new TaskRequest("", "");
 
 
-        mockMvc.perform(post("/tasks")
+        mockMvc.perform(post("/api/v1/tasks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(invalidTaskRequest)))
                 .andExpect(status().isBadRequest())
@@ -109,7 +109,7 @@ public class TaskControllerTest {
 
         when(taskService.updateTask(anyLong(), any(TaskRequest.class))).thenThrow(new TaskNotFoundException("Task not found"));
 
-        mockMvc.perform(put("/tasks/999")
+        mockMvc.perform(put("/api/v1/tasks/999")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(taskRequest)))
                 .andExpect(status().isNotFound())
@@ -120,7 +120,7 @@ public class TaskControllerTest {
     public void testGetTask_NotFound() throws Exception {
         when(taskService.getTask(anyLong())).thenThrow(new TaskNotFoundException("Task not found"));
 
-        mockMvc.perform(get("/tasks/999")
+        mockMvc.perform(get("/api/v1/tasks/999")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Task not found"));

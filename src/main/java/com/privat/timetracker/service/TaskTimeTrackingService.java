@@ -4,11 +4,9 @@ import com.privat.timetracker.controller.dto.TaskResponse;
 import com.privat.timetracker.entity.Task;
 import com.privat.timetracker.entity.TaskStatus;
 import com.privat.timetracker.exception.constants.ErrorMessages;
-import com.privat.timetracker.exception.exceptions.TaskNotFoundException;
-import com.privat.timetracker.exception.exceptions.TaskTimeException;
+import com.privat.timetracker.exception.exceptions.*;
 import com.privat.timetracker.mapping.TaskMapper;
 import com.privat.timetracker.repository.TaskRepository;
-import jdk.jshell.Snippet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +26,7 @@ public class TaskTimeTrackingService implements TimeTracking {
     public TaskResponse startTask(Long taskId) {
         Task task = getTask(taskId);
         if (task.getStatus().equals(TaskStatus.ACTIVE))
-            throw new TaskTimeException(ErrorMessages.TASK_TIME_EXCEPTION.formatted("start", taskId, "Task already started"));
+            throw new TaskAlreadyStarted(ErrorMessages.TASK_TIME_EXCEPTION.formatted("start", taskId, "Task already started"));
         try {
             task.setStatus(TaskStatus.ACTIVE);
             task.setStartTime(LocalDateTime.now());
@@ -48,8 +46,10 @@ public class TaskTimeTrackingService implements TimeTracking {
     @Override
     public TaskResponse stopTask(Long taskId) {
         Task task = getTask(taskId);
+        if (task.getStatus().equals(TaskStatus.CREATED))
+            throw new TaskNotStartedException(ErrorMessages.TASK_TIME_EXCEPTION.formatted("stop", taskId, "Task not started"));
         if (task.getStatus().equals(TaskStatus.INACTIVE))
-            throw new TaskTimeException(ErrorMessages.TASK_TIME_EXCEPTION.formatted("stop", taskId, "Task already stopped"));
+            throw new TaskAlreadyStopped(ErrorMessages.TASK_TIME_EXCEPTION.formatted("stop", taskId, "Task already stopped"));
         try {
             task.setStatus(TaskStatus.INACTIVE);
             task.setEndTime(LocalDateTime.now());

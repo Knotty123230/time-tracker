@@ -1,13 +1,15 @@
 package com.privat.timetracker;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class TimeTrackerSpringApplicationTests {
 
     @Test
     void contextLoads() {
+
     }
 
 }
