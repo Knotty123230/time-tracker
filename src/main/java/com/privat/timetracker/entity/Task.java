@@ -50,7 +50,13 @@ public class Task {
         return Objects.hash(id, title, description, startTime, endTime, status, createdAt, updatedAt);
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;

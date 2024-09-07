@@ -11,11 +11,30 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+/**
+ * Service class responsible for automatically closing tasks at the end of each day.
+ * <p>
+ * This service implements the {@link AutoClosableTask} interface and is scheduled to run daily at 23:59:59.
+ * It marks all active tasks as inactive and sets their end time to the current time.
+ * </p>
+ */
 @Service
 @RequiredArgsConstructor
 public class AutoCloseTaskDailyService implements AutoClosableTask {
+
     private final TaskRepository taskRepository;
 
+    /**
+     * Automatically closes all tasks that are currently active at the end of the day.
+     * <p>
+     * This method is scheduled to run daily at 23:59:59. It updates the status of all active tasks to
+     * {@link TaskStatus#INACTIVE} and sets their end time to the current time.
+     * </p>
+     * <p>
+     * If an exception occurs during the task update, a {@link TaskTimeException} is thrown with a relevant
+     * error message.
+     * </p>
+     */
     @Override
     @Scheduled(cron = "59 59 23 * * *")
     @Transactional
