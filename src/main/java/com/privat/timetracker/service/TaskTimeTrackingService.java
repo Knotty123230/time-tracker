@@ -42,6 +42,7 @@ public class TaskTimeTrackingService implements TimeTracking {
      * @throws TaskTimeException     if an error occurs while starting the task
      */
     @Override
+    @Transactional
     public TaskResponse startTask(Long taskId) {
         Task task = getTask(taskId);
         if (task.getStatus().equals(TaskStatus.ACTIVE))
@@ -73,6 +74,7 @@ public class TaskTimeTrackingService implements TimeTracking {
      * @throws TaskTimeException       if an error occurs while stopping the task
      */
     @Override
+    @Transactional
     public TaskResponse stopTask(Long taskId) {
         Task task = getTask(taskId);
         if (task.getStatus().equals(TaskStatus.CREATED))
