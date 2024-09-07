@@ -37,7 +37,7 @@ public class TaskController implements ITaskController {
     /**
      * Edits an existing task by its ID.
      *
-     * @param id the ID of the task to edit
+     * @param id          the ID of the task to edit
      * @param taskRequest the request body containing updated task details
      * @return {@link TaskResponse} containing the updated task details
      */

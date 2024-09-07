@@ -54,6 +54,10 @@ public class Task {
         return createdAt;
     }
 
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
@@ -64,11 +68,6 @@ public class Task {
 
     public String getDescription() {
         return description;
-    }
-
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     public void setDescription(String description) {

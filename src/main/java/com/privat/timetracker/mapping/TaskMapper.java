@@ -57,7 +57,7 @@ public interface TaskMapper {
      * Updates a {@link Task} entity with data from a {@link TaskRequest}.
      *
      * @param taskRequest the {@link TaskRequest} containing the new data
-     * @param task the {@link Task} entity to update
+     * @param task        the {@link Task} entity to update
      */
     @Mappings(value = {
             @Mapping(target = "title", source = "taskRequest.title"),
@@ -70,7 +70,7 @@ public interface TaskMapper {
      * If the end time is null, the current time is used.
      *
      * @param startTime the start time of the duration
-     * @param endTime the end time of the duration, or null to use the current time
+     * @param endTime   the end time of the duration, or null to use the current time
      * @return a string representing the duration in "HH:mm:ss" format
      */
     default String formatDuration(LocalDateTime startTime, LocalDateTime endTime) {

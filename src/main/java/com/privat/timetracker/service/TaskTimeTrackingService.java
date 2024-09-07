@@ -38,8 +38,8 @@ public class TaskTimeTrackingService implements TimeTracking {
      * @param taskId the ID of the task to start
      * @return the updated task as a {@link TaskResponse} DTO
      * @throws TaskNotFoundException if no task is found with the given ID
-     * @throws TaskAlreadyStarted if the task is already started
-     * @throws TaskTimeException if an error occurs while starting the task
+     * @throws TaskAlreadyStarted    if the task is already started
+     * @throws TaskTimeException     if an error occurs while starting the task
      */
     @Override
     public TaskResponse startTask(Long taskId) {
@@ -67,10 +67,10 @@ public class TaskTimeTrackingService implements TimeTracking {
      *
      * @param taskId the ID of the task to stop
      * @return the updated task as a {@link TaskResponse} DTO
-     * @throws TaskNotFoundException if no task is found with the given ID
+     * @throws TaskNotFoundException   if no task is found with the given ID
      * @throws TaskNotStartedException if the task is not started
-     * @throws TaskAlreadyStopped if the task is already stopped
-     * @throws TaskTimeException if an error occurs while stopping the task
+     * @throws TaskAlreadyStopped      if the task is already stopped
+     * @throws TaskTimeException       if an error occurs while stopping the task
      */
     @Override
     public TaskResponse stopTask(Long taskId) {

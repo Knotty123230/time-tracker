@@ -58,7 +58,7 @@ public class SimpleTaskService implements TaskService {
      * to the current time. The updated task is then saved to the repository.
      * </p>
      *
-     * @param taskId the ID of the task to update
+     * @param taskId      the ID of the task to update
      * @param taskRequest the request containing updated task details
      * @return the updated task as a {@link TaskResponse} DTO
      * @throws TaskNotFoundException if no task is found with the given ID

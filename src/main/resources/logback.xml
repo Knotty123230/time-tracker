@@ -5,8 +5,8 @@
         </encoder>
     </appender>
 
-    <logger name="com.privat.timetracker.aspect" level="INFO" />
+    <logger name="com.privat.timetracker.aspect" level="INFO"/>
     <root level="INFO">
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

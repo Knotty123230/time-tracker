@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+
 /**
  * Global exception handler for managing exceptions thrown by the application.
  * This class uses Spring's {@code @ControllerAdvice} to provide centralized exception handling
@@ -21,6 +22,15 @@ import java.util.List;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    /**
+     * Gets the current timestamp in ISO 8601 format.
+     *
+     * @return the current timestamp as a {@link String}
+     */
+    private static String getTimestamp() {
+        return Timestamp.from(Instant.now()).toString();
+    }
 
     /**
      * Handles {@link TaskNotFoundException} and returns a 404 Not Found status with a detailed error message.
@@ -89,14 +99,5 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         ErrorResponse errorResponse = new ErrorResponse(List.of(ErrorMessages.UNEXPECTED_ERROR.formatted(ex.getMessage())), HttpStatus.INTERNAL_SERVER_ERROR.value(), getTimestamp());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    /**
-     * Gets the current timestamp in ISO 8601 format.
-     *
-     * @return the current timestamp as a {@link String}
-     */
-    private static String getTimestamp() {
-        return Timestamp.from(Instant.now()).toString();
     }
 }
