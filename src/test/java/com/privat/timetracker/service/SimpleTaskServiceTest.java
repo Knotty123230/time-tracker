@@ -52,7 +52,7 @@ public class SimpleTaskServiceTest {
         when(taskMapper.toEntity(request)).thenReturn(task);
         when(taskRepository.save(task)).thenReturn(savedTask);
         when(taskMapper.toDto(savedTask)).thenReturn(new TaskResponse(
-                1L, "Test Title", "Test Description", TaskStatus.CREATED, LocalDateTime.MIN, LocalDateTime.MIN
+                1L, "Test Title", "Test Description", TaskStatus.CREATED, LocalDateTime.MIN, LocalDateTime.MIN, null, null, null
         ));
 
         TaskResponse response = simpleTaskService.createTask(request);
@@ -80,7 +80,7 @@ public class SimpleTaskServiceTest {
         when(taskMapper.updateTaskFromRequest(request, existingTask)).thenReturn(updatedTask);
         when(taskRepository.save(updatedTask)).thenReturn(updatedTask);
         when(taskMapper.toDto(updatedTask)).thenReturn(new TaskResponse(
-                taskId, "Updated Title", "Updated Description", TaskStatus.CREATED, LocalDateTime.now(), LocalDateTime.now()
+                taskId, "Updated Title", "Updated Description", TaskStatus.CREATED, LocalDateTime.now(), LocalDateTime.now(), null, null, null
         ));
 
         TaskResponse response = simpleTaskService.updateTask(taskId, request);
@@ -119,7 +119,7 @@ public class SimpleTaskServiceTest {
         Long taskId = 1L;
         Task task = new Task();
         TaskResponse expectedResponse = new TaskResponse(
-                taskId, "Title", "Description", TaskStatus.CREATED, LocalDateTime.now(), LocalDateTime.now()
+                taskId, "Title", "Description", TaskStatus.CREATED, LocalDateTime.now(), LocalDateTime.now(), null,null, null
         );
 
         when(taskRepository.findById(taskId)).thenReturn(Optional.of(task));
@@ -150,7 +150,7 @@ public class SimpleTaskServiceTest {
     public void testGetAllTasks() {
         Task task = new Task();
         TaskResponse response = new TaskResponse(
-                1L, "Title", "Description", TaskStatus.CREATED, LocalDateTime.now(), LocalDateTime.now()
+                1L, "Title", "Description", TaskStatus.CREATED, LocalDateTime.now(), LocalDateTime.now(), null, null, null
         );
 
         when(taskRepository.findAll()).thenReturn(Collections.singletonList(task));

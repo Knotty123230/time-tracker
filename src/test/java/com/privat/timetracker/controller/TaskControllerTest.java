@@ -33,7 +33,7 @@ public class TaskControllerTest {
     @Test
     public void testCreateTask() throws Exception {
         TaskRequest taskRequest = new TaskRequest("New Task", "Task Description");
-        TaskResponse taskResponse = new TaskResponse(1L, "New Task", "Task Description", null, null, null);
+        TaskResponse taskResponse = new TaskResponse(1L, "New Task", "Task Description", null, null, null, null,null, null);
 
         when(taskService.createTask(any(TaskRequest.class))).thenReturn(taskResponse);
 
@@ -49,7 +49,7 @@ public class TaskControllerTest {
     @Test
     public void testEditTask() throws Exception {
         TaskRequest taskRequest = new TaskRequest("Updated Task", "Updated Description");
-        TaskResponse taskResponse = new TaskResponse(1L, "Updated Task", "Updated Description", null, null, null);
+        TaskResponse taskResponse = new TaskResponse(1L, "Updated Task", "Updated Description", null, null, null, null, null,null);
 
         when(taskService.updateTask(anyLong(), any(TaskRequest.class))).thenReturn(taskResponse);
 
@@ -64,7 +64,7 @@ public class TaskControllerTest {
 
     @Test
     public void testGetAllTasks() throws Exception {
-        TaskResponse taskResponse = new TaskResponse(1L, "Task 1", "Description 1", null, null, null);
+        TaskResponse taskResponse = new TaskResponse(1L, "Task 1", "Description 1", null, null, null, null, null,null);
         List<TaskResponse> taskResponses = Collections.singletonList(taskResponse);
 
         when(taskService.getAllTasks()).thenReturn(taskResponses);
@@ -79,7 +79,7 @@ public class TaskControllerTest {
 
     @Test
     public void testGetTask() throws Exception {
-        TaskResponse taskResponse = new TaskResponse(1L, "Task 1", "Description 1", null, null, null);
+        TaskResponse taskResponse = new TaskResponse(1L, "Task 1", "Description 1", null, null, null, null, null, null);
 
         when(taskService.getTask(anyLong())).thenReturn(taskResponse);
 

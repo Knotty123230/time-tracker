@@ -28,7 +28,7 @@ public class TaskTrackingControllerTest {
 
     @Test
     public void testStartTask() throws Exception {
-        TaskResponse taskResponse = new TaskResponse(1L, "Test Task", null, null, null, null);
+        TaskResponse taskResponse = new TaskResponse(1L, "Test Task", null, null, null, null, null, null, null);
         when(timeTracking.startTask(anyLong())).thenReturn(taskResponse);
 
         mockMvc.perform(post("/api/v1/tasks/1/start")
@@ -40,7 +40,7 @@ public class TaskTrackingControllerTest {
 
     @Test
     public void testStopTask() throws Exception {
-        TaskResponse taskResponse = new TaskResponse(1L, "Test Task", null, null, null, null);
+        TaskResponse taskResponse = new TaskResponse(1L, "Test Task", null, null, null, null, null, null, null);
 
         when(timeTracking.stopTask(anyLong())).thenReturn(taskResponse);
 

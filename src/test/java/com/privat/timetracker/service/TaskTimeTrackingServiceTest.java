@@ -64,11 +64,11 @@ public class TaskTimeTrackingServiceTest {
         assertNotNull(result);
         verify(taskRepository).save(task);
         assertEquals(TaskStatus.ACTIVE, task.getStatus());
-        assertEquals(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)), task.getEndTime());
+        assertNull(task.getEndTime());
     }
 
     private static TaskResponse getTaskResponse() {
-        return new TaskResponse(1L, "Title", "description", TaskStatus.CREATED, LocalDateTime.MIN, LocalDateTime.MIN);
+        return new TaskResponse(1L, "Title", "description", TaskStatus.CREATED, LocalDateTime.MIN, LocalDateTime.MIN, LocalDateTime.now(), LocalDateTime.MIN, "0");
     }
 
     @Test
